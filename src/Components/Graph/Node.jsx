@@ -23,6 +23,9 @@ export default function Node(props) {
     return <div id={id} className={addClasses}
         onMouseEnter={(e) => {
             if (props.wKey) setWall(wall ^ 1);
+            if (props.sKey) props.setStart(id);
+            if (props.eKey) props.setEnd(id);
+
             document.getElementById(id).classList.add('active-node')
         }}
         onClick={(e) => {

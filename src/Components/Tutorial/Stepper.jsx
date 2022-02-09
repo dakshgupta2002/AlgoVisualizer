@@ -1,115 +1,109 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
-const steps = ['What have I made?', 'What is it and what can it do?', ':ets begin and have fun learning'];
+import asset1 from '../../Assets/asset1.png'
+import Legend from './Legend';
+import Contact from './Contact';
 
-export default function HorizontalLinearStepper() {
+const steps = [
+  {
+    label: 'ALGO VISUALIZER',
+    description: `Pathfinding algorithms are a series of steps which can find the shortest path 
+                  between a starting point and an ending point.
+                  With Algo Visualizer you can clearly see the pathfinding algorithm in action
+                  as you like and how you like.`,
+  },
+  {
+    label: 'HOW TO USE IT?',
+    description:
+      `This is the easiest and the most interactive way to use Algo Visualizer.
+      To set the start point, hold "S" and move the mouse to the desired location.
+      Similarly, to set the end point, hold "E" and move the mouse to the desired location.
+      To set the walls, hold "W" and move the mouse to the desired location.`
+  },
+  {
+    label: 'WAIT!! THERE IS MORE...',
+    description: `Try out different functionalities such as changing the algorithm as well as its speed, 
+                  changing the grid size dynamically.`,
+  },
+  {
+    label: 'WANT TO CONNECT WITH ME?',
+    description: `HELLO.`,
+  }
+];
+
+export default function TextMobileStepper() {
+  const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  const maxSteps = steps.length;
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
+    <Box sx={{ width: 'fit-content', padding: '20px'}}>
+      <Paper
+        square
+        elevation={0}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          height: 50,
+          pl: 2,
+          bgcolor: 'background.default',
+        }}
+      >
+        <Typography>{steps[activeStep].label}</Typography>
+      </Paper>
+      <Box sx={{ height: 'fit-content', maxWidth: 400, width: '100%', p: 2 }}>
+        {steps[activeStep].description}
+        {activeStep === 0 ? <img src={asset1} style={{width: '100%'}} alt="algo"/> : null}
+        {activeStep === 1 ? <Legend/> : null}
+        {activeStep===3? <Contact/>:null}
 
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
+      </Box>
+      <MobileStepper
+        variant="text"
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            Next
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            Back
+          </Button>
+        }
+      />
     </Box>
   );
 }

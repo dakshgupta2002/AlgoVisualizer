@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Stepper from './Stepper';
-import Legend from './Legend';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -39,10 +40,9 @@ export default function SimpleDialogDemo() {
   return (
     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: '10px'}}>
-        Tutorial
+        <ContactSupportIcon/>
       </Button>
-      
-      <Legend/>
+    
 
       <SimpleDialog
         open={open}
