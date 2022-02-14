@@ -1,36 +1,43 @@
 import * as React from 'react';
-import { DfsTriangle } from '../../Algorithms/DfsTriangle';
-import { clearBoard } from '../../Algorithms/Clear';
-import { DfsSquare } from '../../Algorithms/DfsSquare';
-
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-
-
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
+//algorithms
+import { clearBoard } from '../../Helper/Clear';
+import BfsVisualizer from '../../Algorithms/Bfs';
+import DfsVisualizer from '../../Algorithms/Dfs';
+//mui
+import { Button, Stack } from '@mui/material';
+import { ClearAll, PlayArrowRounded } from '@mui/icons-material';
+//toast
+import { toast, ToastContainer } from 'react-toastify';
+import { toastOptions } from './Actions';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function VisualizeAction(props) {
-    const handleVisualize = () => {
-        if (props.algo === 'bfs') {
-            DfsTriangle(props.rows, props.columns, props.start, props.end,  props.speed);
-        } else if (props.algo === 'squareTraversal') {
-            console.log(props.algo)
-            DfsSquare( props.rows, props.columns, props.start, props.end, props.speed);
-        }
-    }
+
     return <div>
         <Stack direction="row" spacing={2}>
-            <Button color="success" variant="contained" onClick={handleVisualize}>
-                <PlayArrowIcon /> Visualize
-            </Button>
+            {props.algo === 'Pick' &&
+                <Button color="success" variant="contained" disabled={props.isWorking} onClick={() => {
+                    toast.warn("Pick a valid Algorithm", toastOptions);
+                }}>
+                    <PlayArrowRounded /> Visualize
+                </Button>
+            }
+
+            {props.algo === 'bfs' &&
+                <BfsVisualizer start={props.start} speed={props.speed} rows={props.rows} columns={props.columns} setIsWorking={props.setIsWorking} isWorking={props.isWorking}/>}
+            {props.algo === 'dfs' &&
+                <DfsVisualizer start={props.start} speed={props.speed} rows={props.rows} columns={props.columns} setIsWorking={props.setIsWorking} isWorking={props.isWorking} />}
 
 
-            <Button color="secondary" variant="outlined" onClick={() => {
+            <Button color="secondary" variant="outlined" disabled={props.isWorking} onClick={() => {
                 clearBoard(props.rows, props.columns);
             }}>
-                <ClearAllIcon /> Clear
+                <ClearAll /> Clear
             </Button>
+
+            <ToastContainer />
+
+
         </Stack>
     </div>;
 }

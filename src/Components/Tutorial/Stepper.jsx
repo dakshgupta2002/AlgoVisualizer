@@ -5,8 +5,7 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { KeyboardArrowRight, KeyboardArrowLeft } from '@mui/icons-material';
 
 import asset1 from '../../Assets/asset1.png'
 import Legend from './Legend';
@@ -31,11 +30,11 @@ const steps = [
   {
     label: 'WAIT!! THERE IS MORE...',
     description: `Try out different functionalities such as changing the algorithm as well as its speed, 
-                  changing the grid size dynamically.`,
+                  changing the grid size dynamically. And ofcourse you can use it on phone too.`,
   },
   {
     label: 'WANT TO CONNECT WITH ME?',
-    description: `HELLO.`,
+    description: `Like what I made? Let's have a discussion! Contact me.`,
   }
 ];
 
@@ -53,7 +52,7 @@ export default function TextMobileStepper() {
   };
 
   return (
-    <Box sx={{ width: 'fit-content', padding: '20px'}}>
+    <Box sx={{ width: 'fit-content', padding: '20px' }}>
       <Paper
         square
         elevation={0}
@@ -69,9 +68,11 @@ export default function TextMobileStepper() {
       </Paper>
       <Box sx={{ height: 'fit-content', maxWidth: 400, width: '100%', p: 2 }}>
         {steps[activeStep].description}
-        {activeStep === 0 ? <img src={asset1} style={{width: '100%'}} alt="algo"/> : null}
-        {activeStep === 1 ? <Legend/> : null}
-        {activeStep===3? <Contact/>:null}
+        {activeStep === 0 ? <img src={asset1} style={{ width: '100%' }} alt="algo" /> : null}
+        {activeStep === 1 ? <Legend /> : null}
+        {activeStep === 3 ? <><Contact /><br /><br />
+          <a href="https://innovation-gkh89dg8w-dakshgupta2002.vercel.app/">More about me</a>
+        </> : null}
 
       </Box>
       <MobileStepper

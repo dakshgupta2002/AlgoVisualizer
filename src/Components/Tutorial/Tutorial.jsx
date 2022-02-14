@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Stepper from './Stepper';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-
+import { ContactSupportSharp } from '@mui/icons-material';
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -26,7 +25,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-export default function SimpleDialogDemo() {
+export default function Tutorial(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -39,14 +38,15 @@ export default function SimpleDialogDemo() {
 
   return (
     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: '10px'}}>
-        <ContactSupportIcon/>
+      <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: '10px'}} size="small" disabled={props.isWorking}>
+        <ContactSupportSharp/>
       </Button>
     
 
       <SimpleDialog
         open={open}
         onClose={handleClose}
+        selectedValue={'tutorial'}
       />
     </div>
   );

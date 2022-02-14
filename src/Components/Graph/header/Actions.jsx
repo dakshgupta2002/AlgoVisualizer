@@ -3,41 +3,41 @@ import AlgoPicker from './AlgoPicker';
 import SpeedAction from './SpeedAction';
 import VisualizeAction from './VisualizeAction';
 import Tutorial from '../../Tutorial/Tutorial'
-import { mazeBuilder } from '../../Algorithms/Mazes';
+import '../Grid.css'
+
+export const toastOptions = {
+    position: "bottom-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark"
+}
 
 export default function Actions(props) {
 
-    const actions = {
-        backgroundColor: 'white',
-        width: '100vw',
-        margin: '0px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row'
-    }
-
+    const [isWorking, setIsWorking] = React.useState(false);
     //speed of the animation
-    const [speed, setSpeed] = React.useState('400');
+    const [speed, setSpeed] = React.useState('20');
     //pick algorithm
-    const [algo, setAlgo] = React.useState('bfs')
-    const [maze, setMaze] = React.useState("Mazes");
-
-    React.useEffect( () => {
-        mazeBuilder(maze, props.start, props.end, props.row, props.columns);
-    }, [maze, props.columns, props.row, props.end,  props.start])
+    const [algo, setAlgo] = React.useState('Pick')
 
     return (
-        <div style={actions}>
-            <a style={{textDecoration: 'none'}} href="/"> <h4 style={{color: 'darkblue'}}>Pathfinding Visualizer</h4> </a>
-            
-            <AlgoPicker algo={algo} setAlgo={setAlgo} maze={maze} setMaze={setMaze}/>
-            
-            <VisualizeAction algo={algo} speed={speed} start={props.start} end={props.end} rows={props.rows} columns={props.columns} />
+        <div className="actions">
+            <a style={{ textDecoration: 'none' }} href="/"> <h3 style={{ color: 'darkblue', fontWeight: "15", marginLeft: '5px' }}>Pathfinding Visualizer</h3> </a>
 
-            <SpeedAction speed={speed} setSpeed={setSpeed} />
+            <AlgoPicker isWorking={isWorking} setIsWorking={setIsWorking} algo={algo} setAlgo={setAlgo} 
+                start={props.start} end={props.end} setStart={props.setStart} setEnd={props.setEnd}
+                rows={props.rows} columns={props.columns} />
 
-            <Tutorial />
+            {/* only when we visualize or make maze, we want to set isWorking to true */}
+            <VisualizeAction isWorking={isWorking} setIsWorking={setIsWorking} algo={algo} speed={speed} start={props.start} end={props.end} rows={props.rows} columns={props.columns} />
+
+            <SpeedAction isWorking={isWorking} speed={speed} setSpeed={setSpeed} rows={props.rows} columns={props.columns} setRows={props.setRows} setColumns={props.setColumns} />
+
+            <Tutorial isWorking={isWorking} />
 
         </div >
     )
