@@ -71,7 +71,7 @@ export default function TextMobileStepper() {
         {activeStep === 0 ? <img src={asset1} style={{ width: '100%' }} alt="algo" /> : null}
         {activeStep === 1 ? <Legend /> : null}
         {activeStep === 3 ? <><Contact /><br /><br />
-          <a href="https://innovation-gkh89dg8w-dakshgupta2002.vercel.app/">More about me</a>
+          <a href="https://innovation-gkh89dg8w-dakshgupta2002.vercel.app/">More projects!</a>
         </> : null}
 
       </Box>

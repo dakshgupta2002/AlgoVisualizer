@@ -26,7 +26,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function Tutorial(props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);

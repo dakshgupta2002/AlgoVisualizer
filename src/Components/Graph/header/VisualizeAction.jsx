@@ -3,6 +3,7 @@ import * as React from 'react';
 import { clearBoard } from '../../Helper/Clear';
 import BfsVisualizer from '../../Algorithms/Bfs';
 import DfsVisualizer from '../../Algorithms/Dfs';
+import DijkstraVisualizer from '../../Algorithms/Dijkstra';
 //mui
 import { Button, Stack } from '@mui/material';
 import { ClearAll, PlayArrowRounded } from '@mui/icons-material';
@@ -27,7 +28,8 @@ export default function VisualizeAction(props) {
                 <BfsVisualizer start={props.start} speed={props.speed} rows={props.rows} columns={props.columns} setIsWorking={props.setIsWorking} isWorking={props.isWorking}/>}
             {props.algo === 'dfs' &&
                 <DfsVisualizer start={props.start} speed={props.speed} rows={props.rows} columns={props.columns} setIsWorking={props.setIsWorking} isWorking={props.isWorking} />}
-
+            {props.algo === 'dijkstra' &&
+                <DijkstraVisualizer start={props.start} speed={props.speed} rows={props.rows} columns={props.columns} setIsWorking={props.setIsWorking} isWorking={props.isWorking} />}
 
             <Button color="secondary" variant="outlined" disabled={props.isWorking} onClick={() => {
                 clearBoard(props.rows, props.columns);
