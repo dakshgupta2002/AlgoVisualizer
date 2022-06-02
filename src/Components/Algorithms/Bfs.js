@@ -7,15 +7,13 @@ import {Button} from '@mui/material';
 
 export default function BfsVisualizer(props) {
     var s1 = []
-    var shortestPath = [];
 
     const bfs = () => {
         clearVisited(props.rows, props.columns);
         s1.splice(0, s1.length);
-        shortestPath.splice(0, shortestPath.length);
         
         props.setIsWorking(true);
-        s1.push(props.start);
+        s1.push([props.start, 0, []]);
         return visitNext();
     }
 
@@ -27,36 +25,33 @@ export default function BfsVisualizer(props) {
             return 0;
         }
 
-        if (!canVisit(s1[0])) {
+        if (!canVisit(s1[0][0])) {
             //this is a dead end, pop from end of stack
-            shortestPath.splice(0, 1);
             s1.splice(0, 1);
 
-        } else if (document.getElementById(s1[0]).classList.contains('end-node')) {
+        } else if (document.getElementById(s1[0][0]).classList.contains('end-node')) {
             //found answer, return
-            document.getElementById(s1[0]).classList.add('found-node');
+            document.getElementById(s1[0][0]).classList.add('found-node');
             props.setIsWorking(false);
             toast.success('Found the shortest path', toastOptions);
 
-            setTimeout(() => {
-                addShortestPath(shortestPath, 0, props.speed);
-            }, 1000);
+            setTimeout(() => { addShortestPath(s1[0][2], 0, props.speed);}, 1000);
             return 1;
 
         } else {
-            let node = s1[0];
-            s1.splice(0, 1);
+            let node = s1[0][0];
             document.getElementById(node).classList.add('visited-node');
 
-            shortestPath.push(node);
-            //remove current node 
             //add all neighbors to stack
-            if (canVisit(Attribute(node, "l"))) s1.push(Attribute(node, "l"));
-            if (canVisit(Attribute(node, "d"))) s1.push(Attribute(node, "d"));
-            if (canVisit(Attribute(node, "r"))) s1.push(Attribute(node, "r"));
-            if (canVisit(Attribute(node, "u"))) s1.push(Attribute(node, "u"));
+            if (canVisit(Attribute(node, "l"))) s1.push([Attribute(node, "l"), s1[0][1]+1, s1[0][2].concat(s1[0][0])]);
+            if (canVisit(Attribute(node, "d"))) s1.push([Attribute(node, "d"), s1[0][1]+1, s1[0][2].concat(s1[0][0])]);
+            if (canVisit(Attribute(node, "r"))) s1.push([Attribute(node, "r"), s1[0][1]+1, s1[0][2].concat(s1[0][0])]);
+            if (canVisit(Attribute(node, "u"))) s1.push([Attribute(node, "u"), s1[0][1]+1, s1[0][2].concat(s1[0][0])]);
+            
+            //remove current node 
+            s1.splice(0, 1);
         }
-
+        
         setTimeout(() => {
             return visitNext();
         }, props.speed);

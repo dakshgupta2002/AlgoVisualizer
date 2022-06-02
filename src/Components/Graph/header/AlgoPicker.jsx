@@ -31,7 +31,6 @@ export default function AlgoPicker(props) {
         >
           <MenuItem disabled value={"Pick"}>Pick an Algo</MenuItem>
           <MenuItem value={"bfs"}>BFS</MenuItem>
-          <MenuItem value={"squareTraversal"}>8-dir BFS</MenuItem>
           <MenuItem value={"dfs"}>DFS</MenuItem>
           <MenuItem value={"dijkstra"}>Dijkstra</MenuItem>
         </Select>

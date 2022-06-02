@@ -17,8 +17,6 @@ export const clearBoard = (rows, columns) => {
             node.classList.remove("wall-node");
             node.classList.remove("found-node");
             node.classList.remove("path-node");
-            node.setAttribute("distance", Infinity);
-            node.setAttribute("route", []);
 
         }
     }
