@@ -22,9 +22,11 @@ export default function Node(props) {
 
     return <div id={id} className={addClasses}
         onMouseEnter={(e) => {
-            if (props.wKey) setWall(wall ^ 1);
             if (props.sKey) props.setStart(id);
             if (props.eKey) props.setEnd(id);
+            if (props.startDrag) props.setStart(id);
+            if (props.endDrag) props.setEnd(id);
+            if (props.wKey || (props.mouseDown && !props.startDrag && !props.endDrag)) setWall(wall ^ 1);
 
             document.getElementById(id).classList.add('active-node');
         }}

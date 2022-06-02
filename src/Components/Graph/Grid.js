@@ -33,6 +33,9 @@ export default function Grid() {
   const [sKey, setSKey] = useState(false)
   const [wKey, setWKey] = useState(false)
   const [eKey, setEKey] = useState(false)
+  const [startDrag, setStartDrag] = useState(false);
+  const [endDrag, setEndDrag] = useState(false);
+  const [mouseDown, setMouseDown] = useState(false);
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 's' || e.key==='S') setSKey(true);
@@ -45,7 +48,17 @@ export default function Grid() {
     else if (e.key === 'w' || e.key === 'W') setWKey(false);
     else if (e.key === 'e' || e.key === 'E') setEKey(false);
   })
+  window.addEventListener('mousedown', (e) => {
+    setMouseDown(true);
+    if (e.target.id === start) setStartDrag(true);
+    else if (e.target.id === end) setEndDrag(true);
+  })
 
+  window.addEventListener('mouseup', (e) => {
+    setMouseDown(false);
+    setStartDrag(false); 
+    setEndDrag(false);
+  });
 
   //create the grid 
   //with div element as each small Node 
@@ -59,7 +72,9 @@ export default function Grid() {
       temp[i] = (<Node row={j} col={i} key={nodekey}
         start={start} setStart={setStart}
         end={end} setEnd={setEnd}
-        sKey={sKey} wKey={wKey} eKey={eKey} />)
+        sKey={sKey} wKey={wKey} eKey={eKey} 
+        startDrag={startDrag} endDrag={endDrag} 
+        mouseDown={mouseDown}/>)
       nodekey += 1;
     }
     newGrid[j] = (<div style={row} key={j}>{temp}</div>);
